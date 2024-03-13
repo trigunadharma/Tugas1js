@@ -1,0 +1,107 @@
+<script>
+    
+    
+    // Function to calculate tunjangan and total gaji
+    function calculateGaji() {
+        var rows = document.querySelectorAll("tbody tr");
+
+        rows.forEach(function(row) {
+            var jabatan = row.cells[1].innerText;
+            var gajiPokok = 0;
+
+            // Assign gaji pokok based on jabatan
+            if (jabatan === "Manager") {
+                gajiPokok = 15000000;
+            } else if (jabatan === "Asisten Manager") {
+                gajiPokok = 10000000;
+            } else if (jabatan === "Staff") {
+                gajiPokok = 5000000;
+            } else {
+                gajiPokok = 0;
+            }
+
+            // Calculate tunjangan jabatan
+            var tunjanganJabatan = 0.15 * gajiPokok;
+
+            // Calculate BPJS
+            var bpjs = 0.1 * gajiPokok;
+
+            var status = row.cells[2].innerText;
+            var tunjanganKeluarga = status === "Menikah" ? 0.2 * gajiPokok : 0;
+
+            // Display gaji pokok, tunjangan jabatan, BPJS, tunjangan keluarga, and total gaji
+            row.cells[3].innerText = "Rp " + gajiPokok.toLocaleString('id-ID');
+            row.cells[4].innerText = "Rp " + tunjanganJabatan.toLocaleString('id-ID');
+            row.cells[5].innerText = "Rp " + bpjs.toLocaleString('id-ID');
+            row.cells[6].innerText = "Rp " + tunjanganKeluarga.toLocaleString('id-ID');
+
+            var totalGaji = gajiPokok + tunjanganJabatan + bpjs + tunjanganKeluarga;
+            row.cells[7].innerText = "Rp " + totalGaji.toLocaleString('id-ID');
+        });
+
+        // Calculate total gaji
+        var totalGaji = 0;
+        rows.forEach(function(row) {
+            totalGaji += parseFloat(row.cells[7].innerText.replace(/[^0-9.-]+/g,""));
+        });
+        document.getElementById("totalGaji").innerText = "Rp " + totalGaji.toLocaleString('id-ID');
+    }
+</script>
+</head>
+<body onload="calculateGaji()">
+
+<table border="1">
+    <thead>
+        <tr>
+            <th>Nama Pegawai</th>
+            <th>Jabatan</th>
+            <th>Status</th>
+            <th>Gaji Pokok</th>
+            <th>Tunjangan Jabatan</th>
+            <th>BPJS</th>
+            <th>Tunjangan Keluarga</th>
+            <th>Total Gaji</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Muhammad Hafis</td>
+            <td>Manager</td>
+            <td>Menikah</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>Iwan</td>
+            <td>Asisten Manager</td>
+            <td>Belum Menikah</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>Gibran</td>
+            <td>Staff</td>
+            <td>Menikah</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+    </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="7">Total Gaji</td>
+            <td id="totalGaji"></td>
+        </tr>
+    </tfoot>
+</table>
+
+</body>
+</html>
